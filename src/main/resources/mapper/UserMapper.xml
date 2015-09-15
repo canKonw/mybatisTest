@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间：分类管理sql隔离，方便管理-->
+<mapper namespace="UserMapper">
+    <!--定义个ResultMap-->
+    <!--如果ResultMap定义在一个mapper.xml里面，直接使用resultMap的id ,如果不在同一个mapper要在resultMap前面加namespace-->
+    <resultMap id="userResultMap" type="com.hh.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="userName" />
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex" />
+        <result column="address" property="address"/>
+    </resultMap>
+    <!--id标示一个sql语句，一个Statement，封装为一个MapperStatement-->
+    <!--parameterType:传入参数类型;resultType:输出结果类型，指定映射的pojo-->
+    <!--#{}标示一个占位符，-->
+    <!--查询用户-->
+    <!--oracle-->
+    <!--   SELECT * FROM  USER  WHERE  username  LIKE  '%'||#{_parameter}||'%'-->
+    <!-- mysql-->
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="com.hh.entity.User">
+         SELECT  * FROM USER WHERE id=#{id}
+        </select>
+    <select id="findUserByName" parameterType="java.lang.String" resultType="com.hh.entity.User">
+      SELECT * FROM  USER  WHERE  username  LIKE  '%${username}%'
+    </select>
+    <!--新增用户-->
+    <insert id="insertUser" parameterType="com.hh.entity.User" >
+        <!--插入值之后返回主键值-->
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT  INTO USER  (username,birthday,sex,address) VALUES (#{userName},#{birthday},#{sex},#{address})
+    </insert>
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+    DELETE  FROM USER  WHERE  id=#{id}
+    </delete>
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.hh.entity.User">
+        UPDATE USER  SET username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} WHERE id=#{id}
+    </update>
+    <select id="findUserResultMap" parameterType="com.hh.entity.User" resultMap="userResultMap">
+    SELECT * FROM  USER
+    <where>
+        <include refid="query_user_where"/>
+    </where>
+</select>
+    <!--sql查询片段-->
+    <sql id="query_user_where" >
+        <if test="username!=null and username!=''">
+            AND  username  LIKE  '%${username}%'
+        </if>
+        <if test="sex!=null and sex!=''">
+            AND  sex  =#{sex}
+        </if>
+
+    </sql>
+    <!--foreach标签
+    open：标示开始字符
+    close：标示结束字符
+    collection：标示list名字 值可以是 list array  如果使用的是map,则是key的值
+    item：自定义名字  对应#{}的变量  名字相同
+    separate：分隔符
+    -->
+    <select id="getListByList" parameterType="java.util.List" resultType="com.hh.entity.User">
+        select * from user where id in
+        <foreach item="ids" collection="list" open="( " close=" )"  separator=",">
+            #{ids}
+        </foreach>
+    </select>
+
+    <select id="getListByMap" resultType="com.hh.entity.User">
+        select * from user where id in
+        <foreach item="thisId" collection="mapsIdsTwo" open="( " close=" )"  separator=",">
+            #{thisId}
+        </foreach>
+    </select>
+</mapper>
