@@ -48,6 +48,7 @@ public class Test1 {
         listIds.add(1);
         listIds.add(25);
         listIds.add(26);
+        listIds.add(27);
         List<User> lists = sqlSession.selectList("UserMapper.getListByList",listIds);
         for(User user:lists){
             System.out.println(user.toString());
