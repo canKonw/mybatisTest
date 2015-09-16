@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oneToMore">
+    <!--返回map orders对象中还包含user对象-->
+    <resultMap id="orderResultMap" type="com.hh.entity.Orders">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note"/>
+        <association property="user" javaType="com.hh.entity.User"><!-- 包含的其他对象    注意这里使用javaType-->
+            <id  column="user_id" property="id"/>
+            <result column="username" property="userName"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="oderAndDetailMap" type="com.hh.entity.Orders" extends="orderResultMap">
+        <!--property orders中定义Orderdetail的名字-->
+        <collection  property="orderdetails" ofType="com.hh.entity.Orderdetail">
+            <id column="orderdetail_id" property="id"/>
+            <result column="items_id" property="itemsId"/>
+            <result column="items_num" property="itemsNum"/>
+        </collection>
+    </resultMap>
+
+    <!--根据订单联合查询用户与订单详情  一对多关联（订单与订单详情）-->
+    <select id="findOrderAndDetail" resultMap="oderAndDetailMap" >
+            SELECT
+             o.*,
+      u.username,
+      u.address ,
+      d.id orderdetail_id,
+      d.items_id,
+      d.items_num
+            FROM
+              orders o,
+              user u ,
+              orderdetail d
+            WHERE o.user_id = u.id
+            AND d.orders_id=o.id
+   </select>
+</mapper>
