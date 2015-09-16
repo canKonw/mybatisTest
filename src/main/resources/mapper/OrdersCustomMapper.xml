@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderCustomMapper">
+    <!--返回map orders对象中还包含user对象-->
+    <resultMap id="orderResultMap" type="com.hh.entity.Orders">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note"/>
+        <association property="user" javaType="com.hh.entity.User"><!--注意这里使用javaType-->
+            <id  column="user_id" property="id"/>
+            <result column="username" property="userName"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+    <!--使用resultmap进行查询-->
+
+    <select id="getTwoObjectIsObject" resultMap="orderResultMap">
+                       SELECT
+          o.*,
+          u.username,
+          u.address
+        FROM
+          orders o,
+          USER u
+        WHERE o.user_id = u.id
+   </select>
+    <select id="getTwoObjectIsMap" resultType="java.util.Map">
+                       SELECT
+          o.*,
+          u.username,
+          u.address
+        FROM
+          orders o,
+          USER u
+        WHERE o.user_id = u.id
+   </select>
+
+
+</mapper>
