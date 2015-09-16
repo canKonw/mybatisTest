@@ -10,7 +10,7 @@
        <!-- typeAliases标签 是写实体类的别名，写了之后可以在写Sql配置文件例如<select>标签中的属性就可以不用写实体的具体路径直接用别名就可以了，可以简化代码给你看个例子：
         没有别名这样写<select resultType="com.sjh.entity.VoteUser"> 写了别名就可以这样写<select  resultType="VoteUsers"> 直接写别名就可以不用再写实体的路径了-->
         <!--别名定义1：指定单个路径定义别名（不常用）-->
-      <!--  <typeAlias type="com.ycy.mybatis.module.User" alias="User"/>-->
+      <!--  <typeAlias type="com.ycy.mybatis.module.User" alias="User"/> mapper文件可以知己使用User这个别名，就代表com.ycy.mybatis.module.User-->
         <!--别名定义2：指定包路径，默认为类的名字（首字母大小写都可以，建议大写）-->
        <!-- <package name="com.hh" />--><!--类似于spring的扫包-->
     </typeAliases>
@@ -34,6 +34,8 @@
         <!--如果和spring整合，可以使用整合包的 mapper扫描器，此处mapper配置不需要；-->
         <!--1:通过resource路径导入xml映射（idea必须在resource文件下面）-->
      <mapper  resource="mapper/UserMapper.xml"/>
+     <mapper resource="mapper/OrdersCustomMapper.xml"/>
+     <mapper resource="mapper/OneToMore.xml"/>
         <!--2:通过class路径导入映射，注意：此时class文件必须与想xml文件在一个目录下，同名-->
       <!--  <mapper class="com.ycy.mybatis.dao.UserMapper" />-->
         <!--3:通过批量导入package，自动扫描包下面mapper接口 注意：此时class文件必须与想xml文件在一个目录下,同名-->

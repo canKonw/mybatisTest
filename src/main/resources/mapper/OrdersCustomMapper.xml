@@ -10,7 +10,7 @@
         <result column="number" property="number"/>
         <result column="createtime" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="note" property="note"/>
-        <association property="user" javaType="com.hh.entity.User"><!--注意这里使用javaType-->
+        <association property="user" javaType="com.hh.entity.User"><!-- 包含的其他对象    注意这里使用javaType-->
             <id  column="user_id" property="id"/>
             <result column="username" property="userName"/>
             <result column="address" property="address"/>

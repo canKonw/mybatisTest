@@ -1,6 +1,7 @@
 package com.hh.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by huhao on 15-9-16.
@@ -12,6 +13,7 @@ public class Orders {
     private Date createTime;
     private String note;
     private User user;
+    private List<Orderdetail> orderdetails;
 
     public int getId() {
         return id;
@@ -61,6 +63,14 @@ public class Orders {
         this.user = user;
     }
 
+    public List<Orderdetail> getOrderdetails() {
+        return orderdetails;
+    }
+
+    public void setOrderdetails(List<Orderdetail> orderdetails) {
+        this.orderdetails = orderdetails;
+    }
+
     @Override
     public String toString() {
         return "Orders{" +
@@ -70,6 +80,7 @@ public class Orders {
                 ", createTime=" + createTime +
                 ", note='" + note + '\'' +
                 ", user=" + user +
+                ", orderdetails=" + orderdetails +
                 '}';
     }
 }
