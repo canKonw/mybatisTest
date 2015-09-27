@@ -18,6 +18,9 @@
     <!--oracle-->
     <!--   SELECT * FROM  USER  WHERE  username  LIKE  '%'||#{_parameter}||'%'-->
     <!-- mysql-->
+    <select id="getAllUser" resultType="com.hh.entity.User">
+        select * from user
+    </select>
     <select id="getUserById" parameterType="java.lang.Integer" resultType="com.hh.entity.User">
          SELECT  * FROM USER WHERE id=#{id}
         </select>
