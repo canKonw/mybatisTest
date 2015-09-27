@@ -41,4 +41,9 @@
         <!--3:通过批量导入package，自动扫描包下面mapper接口 注意：此时class文件必须与想xml文件在一个目录下,同名-->
      <!--  <package name="com.hh"/>-->
     </mappers>
+
+   <!-- <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>&lt;!&ndash;设置延迟加载&ndash;&gt;
+        <setting name="aggressiveLazyLoading" value="false"/>&lt;!&ndash;当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。&ndash;&gt;
+    </settings>-->
 </configuration>

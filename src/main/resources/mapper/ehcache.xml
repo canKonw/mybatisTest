@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间：分类管理sql隔离，方便管理-->
+<!--缓存 测试  需要在myBatis中设置settins配置文件-->
+<mapper namespace="lazyLoader">
+<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+    <!--查询订单  一对多关联（订单与订单详情）-->
+    <select id="findOrderAndUserLazyLoding" resultMap="orderAndUserLazyLodingMap" >
+        SELECT
+        o.*
+        FROM
+        orders o
+    </select>
+    <!--查询订单-用户 延迟加载  一对多关联（订单与订单详情）-->
+    <resultMap id="orderAndUserLazyLodingMap" type="com.ycy.mybatis.module.Orders">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createtime"/>
+        <result column="note" property="note"/>
+    </resultMap>
+</mapper>
